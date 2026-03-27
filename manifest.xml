@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE Plugin PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Plugin certificationLevel="None"
+        displayName="IIQ Ops Dashboard"
+        minSystemVersion="7.1"
+        name="IIQOpsDashboard"
+        version="6">
+  <Attributes>
+    <Map>
+      <entry key="minUpgradableVersion" value="2" />
+
+      <entry key="fullPage">
+        <value>
+          <FullPage title="IIQ Ops Dashboard" />
+        </value>
+      </entry>
+
+      <entry key="restResources">
+        <value>
+          <List>
+            <String>com.sailpoint.dashboard.DashboardResource</String>
+          </List>
+        </value>
+      </entry>
+
+      <entry key="snippets">
+        <value>
+          <List>
+            <Snippet regexPattern=".*" rightRequired="ViewIIQOpsDashboard">
+              <Scripts>
+                <String>ui/js/snippets/navIcon.js</String>
+              </Scripts>
+              <StyleSheets>
+                <String>ui/css/dashboard.css</String>
+              </StyleSheets>
+            </Snippet>
+          </List>
+        </value>
+      </entry>
+
+      <entry key="settings">
+        <value>
+          <List>
+            <Setting dataType="int"
+                     helpText="How often the dashboard auto-refreshes in seconds (0 = disabled)"
+                     label="Refresh Interval (seconds)"
+                     name="refreshInterval"
+                     defaultValue="60"/>
+            <Setting dataType="int"
+                     helpText="Max rows returned per panel"
+                     label="Max Rows Per Panel"
+                     name="maxRows"
+                     defaultValue="100"/>
+          </List>
+        </value>
+      </entry>
+
+    </Map>
+  </Attributes>
+</Plugin>

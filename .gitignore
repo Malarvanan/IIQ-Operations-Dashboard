@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Build artifacts
+*.class
+target/
+build/
+
+# Zip releases (keep in releases/ folder, not root)
+*.zip
