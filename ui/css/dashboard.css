@@ -1,0 +1,370 @@
+/* =============================================================
+   IIQ Ops Dashboard — dashboard.css  v6.0
+   Matches SailPoint native UI: white bg, IIQ blue (#1d5f96),
+   standard fonts, no custom dark theme.
+   Scoped under #iqd-root to avoid conflicts with IIQ globals.
+   ============================================================= */
+
+#iqd-root {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #333;
+  background: #f5f5f5;
+  padding: 0 0 24px 0;
+}
+
+/* ---- Page header — matches IIQ page title style ---- */
+.iqd-page-header {
+  background: #fff;
+  border-bottom: 2px solid #1d5f96;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.iqd-page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1d5f96;
+  margin: 0;
+  line-height: 1.2;
+}
+.iqd-page-sub {
+  display: block;
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
+}
+.iqd-page-header-left  { flex: 1; }
+.iqd-page-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.iqd-last-updated {
+  font-size: 11px;
+  color: #888;
+}
+
+/* ---- Auto-refresh label ---- */
+.iqd-refresh-label {
+  font-size: 11px;
+  color: #888;
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  white-space: nowrap;
+}
+.iqd-refresh-label-on {
+  color: #3c763d;
+  border-color: #d6e9c6;
+  background: #dff0d8;
+}
+
+/* ---- Buttons — IIQ native Bootstrap style ---- */
+.iqd-btn {
+  display: inline-block;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+}
+.iqd-btn-default {
+  background: #fff;
+  color: #333;
+  border-color: #ccc;
+}
+.iqd-btn-default:hover {
+  background: #e6e6e6;
+  border-color: #adadad;
+}
+.iqd-btn-primary {
+  background: #1d5f96;
+  color: #fff;
+  border-color: #1a5486;
+}
+.iqd-btn-primary:hover {
+  background: #1a5486;
+  border-color: #174a75;
+}
+.iqd-btn-toggle {
+  background: #dff0d8;
+  color: #3c763d;
+  border-color: #d6e9c6;
+}
+.iqd-btn-toggle:hover {
+  background: #c9e5b8;
+  border-color: #b2d99a;
+}
+
+/* ---- Filter bar — white background, IIQ style ---- */
+.iqd-filter-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 10px 20px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  flex-wrap: wrap;
+}
+.iqd-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.iqd-filter-label {
+  font-size: 11px;
+  color: #555;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.iqd-input {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  color: #333;
+  font-size: 12px;
+  padding: 4px 8px;
+  height: 30px;
+  cursor: pointer;
+  outline: none;
+}
+.iqd-input:focus  { border-color: #1d5f96; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
+.iqd-input:hover  { border-color: #aaa; }
+
+.iqd-select {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  color: #333;
+  font-size: 12px;
+  padding: 4px 8px;
+  height: 30px;
+  cursor: pointer;
+  outline: none;
+}
+.iqd-select:focus { border-color: #1d5f96; }
+
+.iqd-btn-secondary {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+}
+.iqd-btn-secondary:hover { background: #e6e6e6; border-color: #adadad; }
+
+.iqd-filter-sep {
+  width: 1px;
+  height: 30px;
+  background: #ddd;
+  margin: 0 2px;
+  align-self: flex-end;
+}
+.iqd-filter-group-badge {
+  justify-content: flex-end;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+/* Range badge */
+.iqd-range-badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 3px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #777;
+  white-space: nowrap;
+}
+.iqd-range-badge-active {
+  background: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
+}
+
+/* ---- KPI tiles ---- */
+.iqd-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #ddd;
+  margin: 16px 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.iqd-kpi {
+  background: #fff;
+  display: flex;
+  align-items: stretch;
+}
+.iqd-kpi-accent   { width: 4px; flex-shrink: 0; }
+.iqd-accent-blue   { background: #1d5f96; }
+.iqd-accent-orange { background: #e67e22; }
+.iqd-accent-green  { background: #5cb85c; }
+.iqd-accent-red    { background: #d9534f; }
+.iqd-kpi-body {
+  padding: 14px 16px;
+  flex: 1;
+}
+.iqd-kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.iqd-kpi-value {
+  font-size: 30px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.iqd-value-red { color: #d9534f; }
+.iqd-kpi-sub   { font-size: 11px; color: #999; }
+.iqd-kpi-fail  { font-weight: 600; color: #d9534f; }
+
+/* ---- Layout rows ---- */
+.iqd-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 20px 0;
+}
+
+/* ---- Panels ---- */
+.iqd-panel {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.iqd-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+.iqd-panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+.iqd-panel-count {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #d9edf7;
+  color: #31708f;
+  border: 1px solid #bce8f1;
+}
+.iqd-count-fail {
+  background: #f2dede;
+  color: #a94442;
+  border-color: #ebcccc;
+}
+
+/* CSV download button in panel header */
+.iqd-btn-csv {
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 3px;
+  cursor: pointer;
+  background: #fff;
+  color: #1d5f96;
+  border: 1px solid #1d5f96;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.iqd-btn-csv:hover {
+  background: #1d5f96;
+  color: #fff;
+}
+.iqd-btn-csv:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.iqd-panel-body {
+  overflow: auto;
+  max-height: 280px;
+}
+
+/* ---- Tables ---- */
+.iqd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.iqd-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.iqd-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+.iqd-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+  color: #333;
+}
+.iqd-table tr:last-child td { border-bottom: none; }
+.iqd-table tbody tr:hover td { background: #f5f8fc; }
+.iqd-table tr.iqd-row-fail td { background: #fdf7f7; }
+.iqd-table tr.iqd-row-fail:hover td { background: #f2dede; }
+
+/* ---- Status badges — IIQ Bootstrap colors ---- */
+.iqd-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.iqd-badge-success { background: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; }
+.iqd-badge-fail    { background: #f2dede; color: #a94442; border: 1px solid #ebcccc; }
+.iqd-badge-running { background: #d9edf7; color: #31708f; border: 1px solid #bce8f1; }
+.iqd-badge-warning { background: #fcf8e3; color: #8a6d3b; border: 1px solid #faf2cc; }
+
+/* ---- Cell styles ---- */
+.iqd-cell-identity { font-weight: 500; }
+.iqd-cell-app      { color: #1d5f96; }
+.iqd-cell-time     { color: #888; white-space: nowrap; }
+.iqd-cell-task     { color: #555; font-size: 11px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.iqd-cell-op       { font-weight: 500; }
+
+/* ---- State rows ---- */
+.iqd-cell-loading { text-align: center; color: #999; padding: 20px !important; font-style: italic; }
+.iqd-cell-empty   { text-align: center; color: #999; padding: 20px !important; }
+.iqd-cell-error   { text-align: center; color: #a94442; padding: 12px !important; background: #fdf7f7; }

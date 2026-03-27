@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE sailpoint PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<sailpoint>
+
+  <!--
+    SPRight: ViewIIQOpsDashboard
+    Grant this right to any Capability that should be able to access the dashboard.
+    Example: assign to "IIQ Administrator" or create a new "IIQOpsDashboardUser" capability.
+  -->
+  <SPRight name="ViewIIQOpsDashboard"
+           displayName="View IIQ Ops Dashboard"
+           />
+
+</sailpoint>

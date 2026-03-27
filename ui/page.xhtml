@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css"
+        href="#{plugins.requestContextPath}/plugin/IIQOpsDashboard/ui/css/dashboard.css"/>
+
+  <!-- CSRF token written directly from JSF session -->
+  <script type="text/javascript">
+    var IQD_CSRF_TOKEN = '#{sessionScope.csrfToken}';
+  </script>
+
+<div id="iqd-root">
+
+  <!-- PAGE HEADER -->
+  <div class="iqd-page-header">
+    <div class="iqd-page-header-left">
+      <h1 class="iqd-page-title">IIQ Ops Dashboard</h1>
+      <span class="iqd-page-sub">IdentityIQ Operations Monitor — v6</span>
+    </div>
+    <div class="iqd-page-header-right">
+      <span class="iqd-last-updated" id="iqd-last-updated">-</span>
+      <span class="iqd-refresh-label" id="iqd-refresh-label">Auto ↻ 60s</span>
+      <button class="iqd-btn iqd-btn-toggle" onclick="toggleAutoRefresh()" title="Toggle auto-refresh">&#8635; Auto</button>
+      <button class="iqd-btn iqd-btn-default" onclick="loadAll()">&#8635; Refresh Now</button>
+    </div>
+  </div>
+
+  <!-- FILTER BAR — white, SailPoint native style -->
+  <div class="iqd-filter-bar">
+
+    <div class="iqd-filter-group">
+      <label class="iqd-filter-label">From</label>
+      <input type="date" id="filter-from" class="iqd-input" onchange="onFilterChange()"/>
+    </div>
+
+    <div class="iqd-filter-group">
+      <label class="iqd-filter-label">To</label>
+      <input type="date" id="filter-to" class="iqd-input" onchange="onFilterChange()"/>
+    </div>
+
+    <div class="iqd-filter-group">
+      <label class="iqd-filter-label">&#160;</label>
+      <button class="iqd-btn-secondary" onclick="clearDates()">&#215; Clear (Today)</button>
+    </div>
+
+    <div class="iqd-filter-sep"></div>
+
+    <div class="iqd-filter-group">
+      <label class="iqd-filter-label">JML Type</label>
+      <select id="filter-type" class="iqd-select" onchange="loadJml()">
+        <option value="all">All Types</option>
+        <option value="joiner">Joiner</option>
+        <option value="leaver">Leaver</option>
+      </select>
+    </div>
+
+    <div class="iqd-filter-group">
+      <label class="iqd-filter-label">Status</label>
+      <select id="filter-status" class="iqd-select" onchange="loadAll()">
+        <option value="all">All</option>
+        <option value="success">Success</option>
+        <option value="failed">Failed</option>
+      </select>
+    </div>
+
+    <div class="iqd-filter-group iqd-filter-group-badge">
+      <span id="iqd-range-badge" class="iqd-range-badge">Today</span>
+    </div>
+
+  </div>
+
+  <!-- KPI TILES -->
+  <div class="iqd-kpi-row">
+    <div class="iqd-kpi">
+      <div class="iqd-kpi-accent iqd-accent-blue"></div>
+      <div class="iqd-kpi-body">
+        <div class="iqd-kpi-label">Joiners</div>
+        <div class="iqd-kpi-value" id="kpi-joiners">-</div>
+        <div class="iqd-kpi-sub"><span id="kpi-joiners-fail" class="iqd-kpi-fail">-</span> failed</div>
+      </div>
+    </div>
+    <div class="iqd-kpi">
+      <div class="iqd-kpi-accent iqd-accent-orange"></div>
+      <div class="iqd-kpi-body">
+        <div class="iqd-kpi-label">Leavers</div>
+        <div class="iqd-kpi-value" id="kpi-leavers">-</div>
+        <div class="iqd-kpi-sub"><span id="kpi-leavers-fail" class="iqd-kpi-fail">-</span> failed</div>
+      </div>
+    </div>
+    <div class="iqd-kpi">
+      <div class="iqd-kpi-accent iqd-accent-green"></div>
+      <div class="iqd-kpi-body">
+        <div class="iqd-kpi-label">Aggregations</div>
+        <div class="iqd-kpi-value" id="kpi-agg">-</div>
+        <div class="iqd-kpi-sub"><span id="kpi-agg-fail" class="iqd-kpi-fail">-</span> failed</div>
+      </div>
+    </div>
+    <div class="iqd-kpi">
+      <div class="iqd-kpi-accent iqd-accent-red"></div>
+      <div class="iqd-kpi-body">
+        <div class="iqd-kpi-label">Total Failures</div>
+        <div class="iqd-kpi-value iqd-value-red" id="kpi-failures">-</div>
+        <div class="iqd-kpi-sub" id="kpi-failures-sub">jml + agg + prov</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JML ROW -->
+  <div class="iqd-row">
+    <div class="iqd-panel">
+      <div class="iqd-panel-header">
+        <span class="iqd-panel-title">Joiner Events</span>
+        <span class="iqd-panel-count" id="joiner-count"></span>
+        <button class="iqd-btn-csv" id="csv-joiner" onclick="iqd_downloadCsv('joiner')" title="Download all Joiner records as CSV">&#8595; CSV</button>
+      </div>
+      <div class="iqd-panel-body">
+        <table class="iqd-table">
+          <thead><tr><th>Identity</th><th>Task</th><th>Completed</th><th>Status</th></tr></thead>
+          <tbody id="joiner-body"><tr><td colspan="4" class="iqd-cell-loading">Loading&#8230;</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="iqd-panel">
+      <div class="iqd-panel-header">
+        <span class="iqd-panel-title">Leaver Events</span>
+        <span class="iqd-panel-count" id="leaver-count"></span>
+        <button class="iqd-btn-csv" id="csv-leaver" onclick="iqd_downloadCsv('leaver')" title="Download all Leaver records as CSV">&#8595; CSV</button>
+      </div>
+      <div class="iqd-panel-body">
+        <table class="iqd-table">
+          <thead><tr><th>Identity</th><th>Task</th><th>Completed</th><th>Status</th></tr></thead>
+          <tbody id="leaver-body"><tr><td colspan="4" class="iqd-cell-loading">Loading&#8230;</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="iqd-row">
+    <div class="iqd-panel">
+      <div class="iqd-panel-header">
+        <span class="iqd-panel-title">Aggregation Tasks</span>
+        <span class="iqd-panel-count" id="agg-count"></span>
+        <button class="iqd-btn-csv" id="csv-agg" onclick="iqd_downloadCsv('agg')" title="Download all Aggregation records as CSV">&#8595; CSV</button>
+      </div>
+      <div class="iqd-panel-body">
+        <table class="iqd-table">
+          <thead><tr><th>Task Name</th><th>Completed</th><th>Status</th></tr></thead>
+          <tbody id="agg-body"><tr><td colspan="3" class="iqd-cell-loading">Loading&#8230;</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="iqd-panel">
+      <div class="iqd-panel-header">
+        <span class="iqd-panel-title">Provisioning Failures</span>
+        <span class="iqd-panel-count iqd-count-fail" id="prov-count"></span>
+        <button class="iqd-btn-csv" id="csv-prov" onclick="iqd_downloadCsv('prov')" title="Download all Provisioning Failure records as CSV">&#8595; CSV</button>
+      </div>
+      <div class="iqd-panel-body">
+        <table class="iqd-table">
+          <thead><tr><th>Identity</th><th>Application</th><th>Operation</th><th>Time</th></tr></thead>
+          <tbody id="prov-body"><tr><td colspan="4" class="iqd-cell-loading">Loading&#8230;</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /iqd-root -->
+
+<script type="text/javascript"
+        src="#{plugins.requestContextPath}/plugin/IIQOpsDashboard/ui/js/dashboard.js">
+</script>
+
+</ui:composition>
