@@ -24,8 +24,8 @@ A SailPoint IdentityIQ plugin that provides a real-time operations dashboard for
 
 | Component | Version |
 |---|---|
-| SailPoint IdentityIQ | 8.5 (Build fb6698fe9f4) |
-| Java | 11+ (bundled with IIQ) |
+| SailPoint IdentityIQ | 8.5 |
+| Java | 11+  |
 
 ---
 
