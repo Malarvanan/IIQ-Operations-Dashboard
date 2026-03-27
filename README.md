@@ -1,4 +1,5 @@
 # IIQ Ops Dashboard
+<img width="1907" height="832" alt="image" src="https://github.com/user-attachments/assets/f8f7a41d-46d2-4c03-9673-ee953567546d" />
 
 A SailPoint IdentityIQ plugin that provides a real-time operations dashboard for monitoring Joiner/Leaver (JML) events, Aggregation Tasks, and Provisioning Failures — all in one place.
 
