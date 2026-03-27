@@ -16,7 +16,6 @@ A SailPoint IdentityIQ plugin that provides a real-time operations dashboard for
 - **JML Type & Status Filter** — filter by Joiner/Leaver and Success/Failed
 - **CSV Export** — download all records per panel as CSV (respects current date filter)
 - **Auto Refresh** — configurable auto-refresh every 60 seconds
-- **SailPoint Native UI** — white background, IIQ blue headers, Bootstrap-style components
 
 ---
 
@@ -25,7 +24,6 @@ A SailPoint IdentityIQ plugin that provides a real-time operations dashboard for
 | Component | Version |
 |---|---|
 | SailPoint IdentityIQ | 8.5 (Build fb6698fe9f4) |
-| Database | MySQL or SQL Server |
 | Java | 11+ (bundled with IIQ) |
 
 ---
@@ -33,11 +31,10 @@ A SailPoint IdentityIQ plugin that provides a real-time operations dashboard for
 ## Installation
 
 1. Log into IdentityIQ as System Administrator
-2. Go to **Admin → Plugins**
+2. Go to **Plugins**
 3. Click **New Plugin**
-4. Upload `IIQOpsDashboard_v6_1.zip`
-5. Click **Install**
-6. Navigate to the plugin via the nav icon or **Plugins → IIQ Ops Dashboard**
+4. Upload `IIQOpsDashboard.zip`
+5. Navigate to the plugin via the nav icon 
 
 > **Upgrade from previous version:** Uninstall the old version first, then install the new one.
 
@@ -118,7 +115,7 @@ iiq-ops-dashboard/
 
 ## Configuration
 
-Plugin settings are available under **Admin → Plugins → IIQ Ops Dashboard → Settings**:
+Plugin settings are available under **Plugins → IIQ Ops Dashboard → Settings**:
 
 | Setting | Default | Description |
 |---|---|---|
@@ -139,38 +136,6 @@ The plugin exposes these REST endpoints under `/identityiq/plugin/rest/iiqopsdas
 | `GET /provisioning` | `from`, `to`, `max` | Provisioning failures |
 
 All endpoints require an authenticated IIQ session and `X-XSRF-TOKEN` header.
-
----
-
-## Technical Notes
-
-### IIQ 8.5 API Compatibility
-This plugin was built for IIQ 8.5 which introduced breaking API changes from earlier versions. The JAR includes bytecode patches for:
-
-| Old API | IIQ 8.5 API | Fix |
-|---|---|---|
-| `Filter.like(String, String)` | `Filter.like(String, Object)` | Descriptor patch |
-| `QueryOptions.setFilter(Filter)` | `QueryOptions.addFilter(Filter)` | Static helper `setQOFilter` |
-| `QueryOptions.addOrdering(String,bool)→void` | Returns `QueryOptions` | Static helper `addQOOrdering` |
-| `QueryOptions.setResultLimit(int)→void` | Returns `QueryOptions` | Static helper `setQOResultLimit` |
-
-### SQL Server Compatibility
-All `LIKE` filters use `Filter.ignoreCase(Filter.like(..., MatchMode.ANYWHERE))` to ensure case-insensitive substring matching works on both MySQL and SQL Server.
-
----
-
-## Version History
-
-| Version | Changes |
-|---|---|
-| v6.1 | Fixed aggregation filter — was using `eq` (exact match), now uses `likeIC` (contains, case-insensitive). Works on SQL Server |
-| v6.0 | SailPoint native UI (white, IIQ blue), CSV export per panel, removed Task Results / Prov Transactions links |
-| v5.9 | Fixed `addQOOrdering` max_stack JVM verifier bug. Better HTML error detection in JS |
-| v5.8 | Fixed `addQOOrdering` helper — max_stack=2 should be 3 |
-| v5.7 | Fixed `addOrdering` and `setResultLimit` return type mismatches |
-| v5.6 | Fixed `Filter.like` descriptor and `setFilter→addFilter` |
-| v5.5 | Correct plugin REST URL, X-Requested-With bypass |
-| v5.0 | Initial release |
 
 ---
 
